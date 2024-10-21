@@ -1,5 +1,6 @@
 jobs:
   main:
+    requires: [~commit]
     image: node:14
     steps:
       - setup: |
