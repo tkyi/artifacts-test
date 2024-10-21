@@ -1,18 +1,14 @@
-shared:
-    image: node:12
-
 jobs:
-    main:
-        requires: [~commit]
-        steps:
-            - generate-artifacts:  find ./artifacts -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'
-            - copy-to-artifacts-dir: echo $SD_ARTIFACTS_DIR && cp -r ./artifacts $SD_ARTIFACTS_DIR
-            - setTest: |
-                meta set tests.results '10/10'
-                meta set tests.resultsUrl /artifacts/artifacts/index.html
+  main:
+    image: node:14
+    steps:
+      - setup: |
+            echo "Setting up environment"
+            docker --version  # Verify Docker is installed
+            echo "Pulling Docker image pytorch/pytorch:2.5.0-cuda12.4-cudnn9-devel"
+            docker pull pytorch/pytorch:2.5.0-cuda12.4-cudnn9-devel
 
-    something:
-        requires: [~pr]
-        steps:
-            - hello: echo hello
-            - world: echo world
+      - save-image: |
+            echo "Saving Docker image to a tar file"
+            docker save -o pytorch-pytorch.tar pytorch/pytorch:2.5.0-cuda12.4-cudnn9-devel
+            mv pytorch-pytorch.tar $SD_ARTIFACTS_DIR
