@@ -1,7 +1,9 @@
 jobs:
   main:
     requires: [~commit]
-    image: curlimages/curl:latest
+    image: docker:dind
     steps:
-      - curl: curl https://testfile.org/1.3GBiconpng  > ${SD_ARTIFACTS_DIR}/file1
+      - curl: |
+        apk add git curl coreutils
+        curl https://testfile.org/1.3GBiconpng  > ${SD_ARTIFACTS_DIR}/file1
 
