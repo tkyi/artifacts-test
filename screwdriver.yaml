@@ -4,6 +4,5 @@ jobs:
     image: docker:dind
     steps:
       - curl: |
-        apk add git curl coreutils
-        curl https://testfile.org/1.3GBiconpng  > ${SD_ARTIFACTS_DIR}/file1
-
+          apk add git curl coreutils
+          curl https://testfile.org/1.3GBiconpng  > ${SD_ARTIFACTS_DIR}/file1
