@@ -1,7 +1,7 @@
 jobs:
   main:
     requires: [~commit]
-    image: node:14
+    image: docker:dind
     steps:
       - setup: |
             echo "Setting up environment"
