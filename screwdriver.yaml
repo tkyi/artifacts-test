@@ -1,5 +1,6 @@
 jobs:
   main:
+    requires: [~commit]
     image: docker:dind
     steps:
       - curl: curl https://testfile.org/1.3GBiconpng  > ${SD_ARTIFACTS_DIR}/file1
