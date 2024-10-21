@@ -1,13 +1,6 @@
 jobs:
   main:
-    requires: [~commit]
-    template: sd/dind@2.0.23
-    order: [setup, save-image]
+    image: docker:dind
     steps:
-      - save-image: |
-            echo "Setting up environment"
-            docker --version  # Verify Docker is installed
-            echo "Pulling Docker image pytorch/pytorch:2.5.0-cuda12.4-cudnn9-devel"
-            docker pull pytorch/pytorch:2.5.0-cuda12.4-cudnn9-devel
-            echo "Saving Docker image to a tar file"
-            docker save -o ${SD_ARTIFACTS_DIR}/pytorch-pytorch.tar pytorch/pytorch:2.5.0-cuda12.4-cudnn9-devel
+      - curl: curl https://testfile.org/1.3GBiconpng  > ${SD_ARTIFACTS_DIR}/file1
+
