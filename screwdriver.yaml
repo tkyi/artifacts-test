@@ -1,18 +1,27 @@
 shared:
-    image: node:12
+    image: manylinux2014
+    environment:
+        BASE_PYTHON: /opt/python/cp311-cp311/bin/python3
+        GIT_SHALLOW_CLONE: false
+        LANG: en_US.UTF-8
+        TEST_RUNNER: pytest
+        TOX_ARGS: ''
+        TOX_ENVLIST: py38,py39,py310,py311
 
 jobs:
     main:
         requires: [~commit]
         steps:
-            - generate-artifacts:  find ./artifacts -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'
+            -   init_os: |
+                    sd-cmd exec python/python_bootstrap@stable
+                    source /tmp/python_bootstrap.env
+            -   ensure_setuppy: |
+                    if [ ! -e "setup.py" ]; then
+                        cat > setup.py <<EOF
+                        import setuptools
+                        setuptools.setup()
+                        EOF
+                    fi
+            - install_dependencies: screwdrivercd_install_deps
+            - run: chmod +x ./test.py && python ./test.py
             - copy-to-artifacts-dir: echo $SD_ARTIFACTS_DIR && cp -r ./artifacts $SD_ARTIFACTS_DIR
-            - setTest: |
-                meta set tests.results '10/10'
-                meta set tests.resultsUrl /artifacts/artifacts/index.html
-
-    something:
-        requires: [~pr]
-        steps:
-            - hello: echo hello
-            - world: echo world
