@@ -17,10 +17,10 @@ jobs:
                     source /tmp/python_bootstrap.env
             -   ensure_setuppy: |
                     if [ ! -e "setup.py" ]; then
-                        cat > setup.py <<EOF
-                        import setuptools
-                        setuptools.setup()
-                        EOF
+                    cat > setup.py <<EOF
+                    import setuptools
+                    setuptools.setup()
+                    EOF
                     fi
             - install_dependencies: screwdrivercd_install_deps
             - run: chmod +x ./test.py && python ./test.py
