@@ -1,5 +1,5 @@
 shared:
-    image: manylinux2014
+    image: quay.io/pypa/manylinux2014_x86_64
     environment:
         BASE_PYTHON: /opt/python/cp311-cp311/bin/python3
         GIT_SHALLOW_CLONE: false
